@@ -25,7 +25,7 @@ class MoviesView extends StatelessWidget {
                   return const LoadingIndicator();
                 case RequestStatus.loaded:
                   return MoviesWidget(
-                    popularMovies: state.movies[0],
+                    // popularMovies: state.movies[0],
                     topRatedMovies: state.movies[1],
                   );
                 case RequestStatus.error:
@@ -43,15 +43,39 @@ class MoviesView extends StatelessWidget {
   }
 }
 
-class MoviesWidget extends StatelessWidget {
-  final List<Media> popularMovies;
+class MoviesWidget extends StatefulWidget {
+  // final List<Media> popularMovies;
   final List<Media> topRatedMovies;
 
   const MoviesWidget({
     super.key,
-    required this.popularMovies,
+    // required this.popularMovies,
     required this.topRatedMovies,
   });
+
+  @override
+  State<MoviesWidget> createState() => _MoviesWidgetState();
+}
+
+class _MoviesWidgetState extends State<MoviesWidget> {
+  final ScrollController _scrollController = ScrollController();
+
+  @override
+  void initState() {
+    _scrollController.addListener(_onScroll);
+    super.initState();
+  }
+
+  void _onScroll() {
+    if (_scrollController.position.pixels >=
+        _scrollController.position.maxScrollExtent - 200) {}
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -61,35 +85,37 @@ class MoviesWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // Horizontal ListView
-          Container(
-            height: 120, // Set a specific height
-            child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              itemCount: popularMovies.length,
-              itemBuilder: (context, index) {
-                return Container(
-                  width: 100,
-                  height: 100,
-                  color: Colors.blue,
-                  margin: const EdgeInsets.all(8),
-                  child: Center(
-                    child: Text('$index -> ${popularMovies[index].title}'),
-                  ),
-                );
-              },
-            ),
-          ),
+          // Container(
+          //   height: 120, // Set a specific height
+          //   child: ListView.builder(
+          //     scrollDirection: Axis.horizontal,
+          //     itemCount: popularMovies.length,
+          //     itemBuilder: (context, index) {
+          //       return Container(
+          //         width: 100,
+          //         height: 100,
+          //         color: Colors.blue,
+          //         margin: const EdgeInsets.all(8),
+          //         child: Center(
+          //           child: Text('$index -> ${popularMovies[index].title}'),
+          //         ),
+          //       );
+          //     },
+          //   ),
+          // ),
 
           // Vertical ListView
           Container(
             color: Colors.yellow,
             child: ListView.builder(
+              controller: _scrollController,
               shrinkWrap: true,
               physics: NeverScrollableScrollPhysics(),
-              itemCount: topRatedMovies.length,
+              itemCount: widget.topRatedMovies.length,
               itemBuilder: (context, index) {
                 return ListTile(
-                  title: Text('$index ->> ${topRatedMovies[index].title}'),
+                  title:
+                      Text('$index ->> ${widget.topRatedMovies[index].title}'),
                 );
               },
             ),

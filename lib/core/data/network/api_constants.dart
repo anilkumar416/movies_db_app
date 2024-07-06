@@ -25,13 +25,13 @@ class ApiConstants {
 
   // movies paths
   static const String nowPlayingMoviesPath =
-      '$baseUrl/movie/now_playing?api_key=$apiKey';
+      '$baseUrl/movie/now_playing?api_key=$apiKey'; //keep
 
   static const String popularMoviesPath =
       '$baseUrl/movie/popular?api_key=$apiKey';
 
   static const String topRatedMoviesPath =
-      '$baseUrl/movie/top_rated?api_key=$apiKey';
+      '$baseUrl/movie/top_rated?api_key=$apiKey'; //keep
 
   static String getMovieDetailsPath(int movieId) {
     return '$baseUrl/movie/$movieId?api_key=$apiKey&append_to_response=videos,credits,reviews,similar';
@@ -58,10 +58,6 @@ class ApiConstants {
   static String getTvShowDetailsPath(int tvShowId) {
     return '$baseUrl/tv/$tvShowId?api_key=$apiKey&append_to_response=similar,videos';
   }
-
-  // static String getSeasonDetailsPath(SeasonDetailsParams params) {
-  //   return '$baseUrl/tv/${params.id}/season/${params.seasonNumber}?api_key=$apiKey';
-  // }
 
   static String getAllPopularTvShowsPath(int page) {
     return '$baseUrl/tv/popular?api_key=$apiKey&page=$page&with_original_language=en';
